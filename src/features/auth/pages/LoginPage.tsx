@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -20,15 +20,6 @@ export function LoginPage() {
   const { setAuth, isAuthenticated, user } = useAuthStore()
   const [showPassword, setShowPassword] = useState(false)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
-
-  // Si ya está autenticado, redirigir directamente
-  if (isAuthenticated && user) {
-    const primaryRole = getPrimaryRole(user.roles)
-    const dest = primaryRole ? ROLE_DASHBOARD[primaryRole] : '/'
-    navigate(dest, { replace: true })
-    return null
-  }
-
   const {
     register,
     handleSubmit,
@@ -36,6 +27,18 @@ export function LoginPage() {
   } = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
   })
+
+  useEffect(() => {
+    if (!isAuthenticated || !user) return
+
+    const primaryRole = getPrimaryRole(user.roles)
+    const dest = primaryRole ? ROLE_DASHBOARD[primaryRole] : '/'
+    navigate(dest, { replace: true })
+  }, [isAuthenticated, navigate, user])
+
+  if (isAuthenticated && user) {
+    return null
+  }
 
   async function onSubmit(values: LoginFormValues) {
     setErrorMessage(null)

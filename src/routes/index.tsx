@@ -1,6 +1,7 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom'
 import { ProtectedRoute } from './ProtectedRoute'
 import { RoleGuard } from './RoleGuard'
+import { ForbiddenPage, PageNotFound } from './RouteStatusPages'
 import { AppShell } from '@/components/layout/AppShell'
 import { PortalShell } from '@/components/layout/PortalShell'
 import { LoginPage } from '@/features/auth/pages/LoginPage'
@@ -46,24 +47,6 @@ import { MecanicosPage } from '@/features/mecanicos/pages/MecanicosPage'
 import { MecanicoMisOrdenesPage } from '@/features/mecanicos/pages/MecanicoMisOrdenesPage'
 // Phase 3 — Dashboards reales
 import { JefeTallerDashboard } from '@/features/dashboard/pages/JefeTallerDashboard'
-
-function PageNotFound() {
-  return (
-    <div className="flex flex-col items-center justify-center gap-2 py-20 text-center">
-      <p className="text-4xl font-bold">404</p>
-      <p className="text-muted-foreground">Página no encontrada</p>
-    </div>
-  )
-}
-
-function ForbiddenPage() {
-  return (
-    <div className="flex min-h-screen flex-col items-center justify-center gap-2 text-center">
-      <p className="text-4xl font-bold">403</p>
-      <p className="text-muted-foreground">No tienes permiso para acceder a esta sección</p>
-    </div>
-  )
-}
 
 export const router = createBrowserRouter([
   // Públicas

@@ -23,13 +23,12 @@ const BASE_URL = import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:5180'
 
 function AuthBootstrap({ children }: { children: React.ReactNode }) {
   const { setAuth } = useAuthStore()
-  const [ready, setReady] = useState(false)
+  const [ready, setReady] = useState(() => !localStorage.getItem('refreshToken'))
 
   useEffect(() => {
     const refreshToken = localStorage.getItem('refreshToken')
 
     if (!refreshToken) {
-      setReady(true)
       return
     }
 
