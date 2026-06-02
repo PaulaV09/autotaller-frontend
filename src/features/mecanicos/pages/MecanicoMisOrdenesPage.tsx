@@ -10,7 +10,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select'
-import { Progress } from '@/components/ui/progress'
 import { useMisOrdenes } from '@/features/ordenes/hooks/useOrdenes'
 import { useAreasServicio } from '@/features/catalogos/hooks/useCatalogos'
 import { formatCurrency } from '@/lib/utils'

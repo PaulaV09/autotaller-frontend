@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { toast } from 'sonner'
 import { PageHeader } from '@/components/common/PageHeader'
 import { OrdenAreaBadge } from '@/components/common/StatusBadge'
@@ -50,7 +50,6 @@ interface OrdenAreaDetallePageProps {
 
 export function OrdenAreaDetallePage({ backPath }: OrdenAreaDetallePageProps) {
   const { id } = useParams<{ id: string }>()
-  const navigate = useNavigate()
   const { user, primaryRole } = useAuth()
   const areaId = Number(id)
 
@@ -258,18 +257,26 @@ export function OrdenAreaDetallePage({ backPath }: OrdenAreaDetallePageProps) {
           <ProposalApprovalPanelJefeTaller
             trabajos={trabajos}
             repuestos={repuestos}
-            onAprobar={(t, r, comentario) =>
-              aprobarJTMutation
-                .mutateAsync({ trabajosAprobados: t, repuestosAprobados: r, comentario })
-                .then(() => toast.success('Propuesta aprobada'))
-                .catch(() => toast.error('Error al aprobar'))
-            }
-            onRechazar={(motivo) =>
-              rechazarJTMutation
-                .mutateAsync({ motivoRechazo: motivo })
-                .then(() => toast.success('Propuesta rechazada'))
-                .catch(() => toast.error('Error al rechazar'))
-            }
+            onAprobar={async (t, r, comentario) => {
+              try {
+                await aprobarJTMutation.mutateAsync({
+                  trabajosAprobados: t,
+                  repuestosAprobados: r,
+                  comentario,
+                })
+                toast.success('Propuesta aprobada')
+              } catch {
+                toast.error('Error al aprobar')
+              }
+            }}
+            onRechazar={async (motivo) => {
+              try {
+                await rechazarJTMutation.mutateAsync({ motivoRechazo: motivo })
+                toast.success('Propuesta rechazada')
+              } catch {
+                toast.error('Error al rechazar')
+              }
+            }}
             isLoading={aprobarJTMutation.isPending || rechazarJTMutation.isPending}
           />
         )}
@@ -279,18 +286,26 @@ export function OrdenAreaDetallePage({ backPath }: OrdenAreaDetallePageProps) {
           <ProposalApprovalPanelCliente
             trabajos={trabajos}
             repuestos={repuestos}
-            onAprobar={(t, r, comentario) =>
-              aprobarClienteMutation
-                .mutateAsync({ trabajosAprobados: t, repuestosAprobados: r, comentarioCliente: comentario })
-                .then(() => toast.success('Aprobado por el cliente'))
-                .catch(() => toast.error('Error al aprobar'))
-            }
-            onRechazar={(comentario) =>
-              rechazarClienteMutation
-                .mutateAsync({ comentarioCliente: comentario })
-                .then(() => toast.success('Rechazado por el cliente'))
-                .catch(() => toast.error('Error al rechazar'))
-            }
+            onAprobar={async (t, r, comentario) => {
+              try {
+                await aprobarClienteMutation.mutateAsync({
+                  trabajosAprobados: t,
+                  repuestosAprobados: r,
+                  comentarioCliente: comentario,
+                })
+                toast.success('Aprobado por el cliente')
+              } catch {
+                toast.error('Error al aprobar')
+              }
+            }}
+            onRechazar={async (comentario) => {
+              try {
+                await rechazarClienteMutation.mutateAsync({ comentarioCliente: comentario })
+                toast.success('Rechazado por el cliente')
+              } catch {
+                toast.error('Error al rechazar')
+              }
+            }}
             isLoading={aprobarClienteMutation.isPending || rechazarClienteMutation.isPending}
           />
         )}
@@ -304,12 +319,14 @@ export function OrdenAreaDetallePage({ backPath }: OrdenAreaDetallePageProps) {
             <ProgressTracker
               seguimientos={seguimientos}
               canEdit={acciones.puedeRegistrarSeguimiento}
-              onRegistrar={(porcentajeAvance, comentario) =>
-                seguimientoMutation
-                  .mutateAsync({ porcentajeAvance, comentario })
-                  .then(() => toast.success('Avance registrado'))
-                  .catch(() => toast.error('Error al registrar avance'))
-              }
+              onRegistrar={async (porcentajeAvance, comentario) => {
+                try {
+                  await seguimientoMutation.mutateAsync({ porcentajeAvance, comentario })
+                  toast.success('Avance registrado')
+                } catch {
+                  toast.error('Error al registrar avance')
+                }
+              }}
               isLoading={seguimientoMutation.isPending}
             />
           </CardContent>

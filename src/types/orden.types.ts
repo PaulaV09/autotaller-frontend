@@ -54,6 +54,13 @@ export interface RepuestoPropuestoDto {
   estadoAprobacion: EstadoAprobacion
 }
 
+export interface CreateOrdenServicioGeneralRequest {
+  vehiculoId: number
+  clienteId: number
+  tipoServicioId: number
+  observacionesIniciales: string
+}
+
 export interface CreateOrdenServicioAreaRequest {
   areaServicioId: number
   mecanicoAsignadoId: number | null

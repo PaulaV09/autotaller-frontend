@@ -7,12 +7,10 @@ import { ClipboardList, Image, Plus } from 'lucide-react'
 import { toast } from 'sonner'
 import { PageHeader } from '@/components/common/PageHeader'
 import { InspeccionBadge } from '@/components/common/StatusBadge'
-import { ConfirmDialog } from '@/components/common/ConfirmDialog'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Skeleton } from '@/components/ui/skeleton'
-import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Textarea } from '@/components/ui/textarea'
 import {
@@ -30,7 +28,7 @@ import {
 } from '../hooks/useInspecciones'
 import { useTiposServicio } from '@/features/catalogos/hooks/useCatalogos'
 import { crearOrdenSchema, type CrearOrdenFormValues } from '../schemas/inspeccion.schema'
-import { formatDate, formatDateTime } from '@/lib/utils'
+import { formatDateTime } from '@/lib/utils'
 import { EstadoInspeccion } from '@/types/enums'
 import {
   Dialog,

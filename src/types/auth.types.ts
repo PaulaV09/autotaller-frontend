@@ -22,6 +22,10 @@ export interface CambiarPasswordRequest {
   newPassword: string
 }
 
+export interface CrearCredencialesClienteRequest {
+  password: string
+}
+
 export interface UsuarioDto {
   id: number
   nombre: string
@@ -43,6 +47,17 @@ export interface UpdateUsuarioRequest {
   correo: string
   activo: boolean
   rolIds: number[]
+}
+
+export interface RolDto {
+  id: number
+  nombre: string
+  descripcion: string
+}
+
+export interface CreateRolRequest {
+  nombre: string
+  descripcion?: string | null
 }
 
 export type AppRole =

@@ -6,6 +6,7 @@ import type {
   UpdateClienteRequest,
   ClienteVehiculoResumenDto,
   ClienteEstadisticasDto,
+  ClienteHistorialDto,
 } from '@/types/cliente.types'
 import type { RegistrarClienteConVehiculoRequest } from '@/types/vehiculo.types'
 import type { OrdenServicioGeneralDto } from '@/types/orden.types'
@@ -56,5 +57,10 @@ export const clientesService = {
   getEstadisticas: (id: number) =>
     apiClient
       .get<ClienteEstadisticasDto>(ENDPOINTS.clientes.estadisticas(id))
+      .then((r) => r.data),
+
+  getHistorial: (id: number) =>
+    apiClient
+      .get<ClienteHistorialDto>(ENDPOINTS.clientes.historial(id))
       .then((r) => r.data),
 }

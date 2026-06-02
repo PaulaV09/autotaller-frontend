@@ -7,7 +7,7 @@ import { OrderStatusTimeline } from '@/components/common/OrderStatusTimeline'
 import { OrdenAreaBadge } from '@/components/common/StatusBadge'
 import { ConfirmDialog } from '@/components/common/ConfirmDialog'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -53,7 +53,7 @@ const ESTADOS_NO_CANCELABLE = [
 export function OrdenDetallePage({ basePath }: OrdenDetallePageProps) {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
-  const { hasRole, user } = useAuth()
+  const { hasRole } = useAuth()
   const ordenId = Number(id)
 
   const [cancelarOpen, setCancelarOpen] = useState(false)

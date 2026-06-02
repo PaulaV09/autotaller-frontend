@@ -40,6 +40,12 @@ export interface MetodoPago {
   activo: boolean
 }
 
+export interface TipoMovimientoInventario {
+  id: number
+  nombre: string
+  descripcion: string
+}
+
 export interface SeccionInspeccion {
   id: number
   nombre: string
@@ -51,4 +57,29 @@ export interface SeccionInspeccion {
 export interface EnumItem {
   id: number
   nombre: string
+}
+
+export interface CreateAreaServicioRequest {
+  nombre: string
+  descripcion?: string
+}
+
+export interface CreateTipoServicioRequest {
+  nombre: string
+  descripcion: string
+  diasEstimadosBase: number
+}
+
+export interface CreateMetodoPagoRequest {
+  nombre: string
+}
+
+export interface CreateCategoriaRepuestoRequest {
+  nombre: string
+  descripcion?: string
+}
+
+export interface CreateTipoMovimientoRequest {
+  nombre: string
+  descripcion?: string
 }

@@ -42,3 +42,12 @@ export interface RegistrarPagoFacturaRequest {
   monto: number
   referencia: string
 }
+
+export interface GenerarFacturaRequest {
+  descuentos?: DescuentoRequest[] | null
+}
+
+export interface DescuentoRequest {
+  descripcion: string
+  monto: number
+}

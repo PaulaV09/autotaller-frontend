@@ -4,6 +4,7 @@ import type {
   LoginRequest,
   LoginResponse,
   CambiarPasswordRequest,
+  RefreshTokenRequest,
 } from '@/types/auth.types'
 
 export const authService = {
@@ -12,6 +13,9 @@ export const authService = {
 
   logout: () =>
     apiClient.post(ENDPOINTS.auth.logout).then((r) => r.data),
+
+  refreshToken: (body: RefreshTokenRequest) =>
+    apiClient.post<LoginResponse>(ENDPOINTS.auth.refresh, body).then((r) => r.data),
 
   cambiarPassword: (body: CambiarPasswordRequest) =>
     apiClient.post(ENDPOINTS.auth.cambiarPassword, body).then((r) => r.data),

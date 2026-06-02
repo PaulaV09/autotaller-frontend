@@ -1,4 +1,6 @@
 import type { EstadoOrdenGeneral, EstadoInspeccion } from './enums'
+import type { FacturaDto } from './factura.types'
+import type { OrdenServicioGeneralDto } from './orden.types'
 
 export interface ClienteDto {
   id: number
@@ -77,4 +79,12 @@ export interface InspeccionResumenHistorialDto {
   estado: EstadoInspeccion
   kilometrajeActual: number
   observacionesGenerales: string
+}
+
+export interface ClienteHistorialDto {
+  cliente: ClienteDto
+  vehiculos: ClienteVehiculoResumenDto[]
+  ordenes: OrdenServicioGeneralDto[]
+  facturas: FacturaDto[]
+  estadisticas: ClienteEstadisticasDto
 }

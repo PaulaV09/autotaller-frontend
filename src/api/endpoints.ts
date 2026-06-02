@@ -13,9 +13,12 @@ export const ENDPOINTS = {
   usuarios: {
     list: `${BASE}/api/Usuarios`,
     byId: (id: number) => `${BASE}/api/Usuarios/${id}`,
+    crearCredencialesCliente: (clienteId: number) =>
+      `${BASE}/api/Usuarios/${clienteId}/crear-credenciales`,
   },
   roles: {
     list: `${BASE}/api/roles`,
+    byId: (id: number) => `${BASE}/api/roles/${id}`,
   },
 
   // Catálogos
@@ -30,10 +33,16 @@ export const ENDPOINTS = {
     tiposMovimiento: `${BASE}/api/Catalogos/tipos-movimiento-inventario`,
     tiposCombustible: `${BASE}/api/Catalogos/tipos-combustible`,
     tiposTransmision: `${BASE}/api/Catalogos/tipos-transmision`,
+    zonasInventario: `${BASE}/api/Catalogos/zonas-inventario`,
+    estadosPagoFactura: `${BASE}/api/Catalogos/estados-pago-factura`,
     estadosOrdenGeneral: `${BASE}/api/Catalogos/estados-orden-general`,
     estadosOrdenArea: `${BASE}/api/Catalogos/estados-orden-area`,
     estadosOrdenCompra: `${BASE}/api/Catalogos/estados-orden-compra`,
     seccionesInspeccion: `${BASE}/api/Catalogos/secciones-inspeccion`,
+    areaServicio: (id: number) => `${BASE}/api/Catalogos/areas-servicio/${id}`,
+    tipoServicio: (id: number) => `${BASE}/api/Catalogos/tipos-servicio/${id}`,
+    metodoPagoActivar: (id: number) => `${BASE}/api/Catalogos/metodos-pago/${id}/activar`,
+    categoriaRepuesto: (id: number) => `${BASE}/api/Catalogos/categorias-repuesto/${id}`,
   },
 
   // Clientes
@@ -111,6 +120,9 @@ export const ENDPOINTS = {
   repuestos: {
     list: `${BASE}/api/Repuestos`,
     byId: (id: number) => `${BASE}/api/Repuestos/${id}`,
+    proveedores: (id: number) => `${BASE}/api/Repuestos/${id}/proveedores`,
+    proveedor: (id: number, proveedorId: number) =>
+      `${BASE}/api/Repuestos/${id}/proveedores/${proveedorId}`,
   },
 
   // Inventario

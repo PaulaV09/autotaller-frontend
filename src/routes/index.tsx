@@ -187,7 +187,7 @@ export const router = createBrowserRouter([
             path: 'mecanico/mis-ordenes',
             element: (
               <RoleGuard roles={['Mecanico', 'SuperAdministrador']}>
-                <DashboardPlaceholder role="Mis Órdenes" description="Órdenes de área asignadas." />
+                <MecanicoMisOrdenesPage />
               </RoleGuard>
             ),
           },

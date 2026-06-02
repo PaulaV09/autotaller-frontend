@@ -7,6 +7,7 @@ import type {
   TrabajoPropuestoDto,
   RepuestoPropuestoDto,
   SeguimientoOrdenAreaDto,
+  CreateOrdenServicioGeneralRequest,
   CreateOrdenServicioAreaRequest,
   ProponerTrabajoRequest,
   ProponerRepuestoRequest,
@@ -42,6 +43,11 @@ export const ordenesGeneralesService = {
   getById: (id: number) =>
     apiClient
       .get<OrdenServicioGeneralDto>(ENDPOINTS.ordenesGenerales.byId(id))
+      .then((r) => r.data),
+
+  crear: (body: CreateOrdenServicioGeneralRequest) =>
+    apiClient
+      .post<{ id: number }>(ENDPOINTS.ordenesGenerales.list, body)
       .then((r) => r.data),
 
   cerrar: (id: number) =>

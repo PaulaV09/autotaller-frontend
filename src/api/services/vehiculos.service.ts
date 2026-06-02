@@ -7,6 +7,8 @@ import type {
   PropietarioHistorialDto,
   VehiculoHistorialDto,
 } from '@/types/vehiculo.types'
+import type { InspeccionVehiculoDto } from '@/types/inspeccion.types'
+import type { OrdenServicioGeneralDto } from '@/types/orden.types'
 
 interface ListVehiculosParams {
   pageNumber?: number
@@ -27,6 +29,9 @@ export const vehiculosService = {
   update: (id: number, body: UpdateVehiculoRequest) =>
     apiClient.put(ENDPOINTS.vehiculos.byId(id), body),
 
+  delete: (id: number) =>
+    apiClient.delete(ENDPOINTS.vehiculos.byId(id)),
+
   cambiarPropietario: (id: number, nuevoClienteId: number) =>
     apiClient.patch(ENDPOINTS.vehiculos.cambiarPropietario(id), { nuevoClienteId }),
 
@@ -38,5 +43,15 @@ export const vehiculosService = {
   getHistorial: (id: number) =>
     apiClient
       .get<VehiculoHistorialDto>(ENDPOINTS.vehiculos.historial(id))
+      .then((r) => r.data),
+
+  getOrdenes: (id: number) =>
+    apiClient
+      .get<OrdenServicioGeneralDto[]>(ENDPOINTS.vehiculos.ordenes(id))
+      .then((r) => r.data),
+
+  getInspecciones: (id: number) =>
+    apiClient
+      .get<InspeccionVehiculoDto[]>(ENDPOINTS.vehiculos.inspecciones(id))
       .then((r) => r.data),
 }
