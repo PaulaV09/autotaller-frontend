@@ -16,7 +16,11 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { useVehiculo, useUpdateVehiculo } from '../hooks/useVehiculos'
-import { useMarcasVehiculo, useModelosVehiculo } from '@/features/catalogos/hooks/useCatalogos'
+import {
+  useMarcasVehiculo,
+  useModelosVehiculo,
+  useTodosModelosVehiculo,
+} from '@/features/catalogos/hooks/useCatalogos'
 import { editarVehiculoSchema, type EditarVehiculoFormValues } from '../schemas/vehiculo.schema'
 import { TipoCombustible, TipoTransmision } from '@/types/enums'
 import { TIPO_COMBUSTIBLE_LABEL, TIPO_TRANSMISION_LABEL } from '@/lib/constants'
@@ -46,13 +50,16 @@ export function VehiculoEditPage({ basePath }: VehiculoEditPageProps) {
 
   const marcaId = watch('marcaVehiculoId')
   const { data: marcas } = useMarcasVehiculo()
+  const { data: todosModelos } = useTodosModelosVehiculo()
   const { data: modelos } = useModelosVehiculo(marcaId > 0 ? marcaId : undefined)
 
   useEffect(() => {
-    if (vehiculo) {
+    if (vehiculo && todosModelos) {
+      const modeloActual = todosModelos.find((m) => m.id === vehiculo.modeloVehiculoId)
+
       reset({
         modeloVehiculoId: vehiculo.modeloVehiculoId,
-        marcaVehiculoId: 0,
+        marcaVehiculoId: modeloActual?.marcaVehiculoId ?? 0,
         anio: vehiculo.anio,
         placa: vehiculo.placa,
         kilometraje: vehiculo.kilometraje,
@@ -71,7 +78,7 @@ export function VehiculoEditPage({ basePath }: VehiculoEditPageProps) {
         capacidadCombustibleLitros: vehiculo.capacidadCombustibleLitros ?? undefined,
       })
     }
-  }, [vehiculo, reset])
+  }, [vehiculo, todosModelos, reset])
 
   async function onSubmit(values: EditarVehiculoFormValues) {
     const { marcaVehiculoId: _m, ...rest } = values
@@ -81,10 +88,14 @@ export function VehiculoEditPage({ basePath }: VehiculoEditPageProps) {
         color: rest.color || null,
         numeroMotor: rest.numeroMotor || null,
         numeroChasis: rest.numeroChasis || null,
+        cilindraje: Number.isFinite(rest.cilindraje) ? rest.cilindraje : null,
         fechaVencimientoSOAT: rest.fechaVencimientoSOAT || null,
         fechaVencimientoTecnomecanica: rest.fechaVencimientoTecnomecanica || null,
         paisOrigen: rest.paisOrigen || null,
         numeroLlave: rest.numeroLlave || null,
+        capacidadCombustibleLitros: Number.isFinite(rest.capacidadCombustibleLitros)
+          ? rest.capacidadCombustibleLitros
+          : null,
       })
       toast.success('Vehículo actualizado')
       navigate(`${basePath}/vehiculos/${vehiculoId}`)
@@ -108,7 +119,10 @@ export function VehiculoEditPage({ basePath }: VehiculoEditPageProps) {
           {/* Marca */}
           <div className="space-y-1">
             <Label>Marca</Label>
-            <Select onValueChange={(v) => { setValue('marcaVehiculoId', Number(v)); setValue('modeloVehiculoId', 0) }}>
+            <Select
+              value={String(watch('marcaVehiculoId') || '')}
+              onValueChange={(v) => { setValue('marcaVehiculoId', Number(v)); setValue('modeloVehiculoId', 0) }}
+            >
               <SelectTrigger>
                 <SelectValue placeholder="Selecciona marca para cambiar modelo" />
               </SelectTrigger>
@@ -163,6 +177,12 @@ export function VehiculoEditPage({ basePath }: VehiculoEditPageProps) {
           </div>
 
           <div className="space-y-1">
+            <Label>Cilindraje</Label>
+            <Input type="number" min={0} {...register('cilindraje', { valueAsNumber: true })} />
+            {errors.cilindraje && <p className="text-xs text-destructive">{errors.cilindraje.message}</p>}
+          </div>
+
+          <div className="space-y-1">
             <Label>Combustible *</Label>
             <Select
               value={String(watch('tipoCombustible') || '')}
@@ -210,6 +230,24 @@ export function VehiculoEditPage({ basePath }: VehiculoEditPageProps) {
           <div className="space-y-1">
             <Label>Número de chasis</Label>
             <Input {...register('numeroChasis')} />
+          </div>
+
+          <div className="space-y-1">
+            <Label>País de origen</Label>
+            <Input {...register('paisOrigen')} />
+          </div>
+
+          <div className="space-y-1">
+            <Label>Número de llave</Label>
+            <Input {...register('numeroLlave')} />
+          </div>
+
+          <div className="space-y-1">
+            <Label>Capacidad combustible (L)</Label>
+            <Input type="number" min={0} {...register('capacidadCombustibleLitros', { valueAsNumber: true })} />
+            {errors.capacidadCombustibleLitros && (
+              <p className="text-xs text-destructive">{errors.capacidadCombustibleLitros.message}</p>
+            )}
           </div>
 
           <div className="flex items-center gap-2">

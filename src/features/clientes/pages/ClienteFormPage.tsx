@@ -69,7 +69,25 @@ export function ClienteFormPage({ basePath }: ClienteFormPageProps) {
       const { vehiculos, ...clienteData } = values
       const payload = {
         ...clienteData,
-        vehiculos: vehiculos.map(({ marcaVehiculoId: _marca, ...v }) => v),
+        direccion: clienteData.direccion || undefined,
+        ciudad: clienteData.ciudad || undefined,
+        fechaNacimiento: clienteData.fechaNacimiento || undefined,
+        telefonoAlternativo: clienteData.telefonoAlternativo || undefined,
+        genero: clienteData.genero || undefined,
+        vehiculos: vehiculos.map(({ marcaVehiculoId: _marca, ...v }) => ({
+          ...v,
+          color: v.color || undefined,
+          cilindraje: Number.isFinite(v.cilindraje) ? v.cilindraje : undefined,
+          numeroMotor: v.numeroMotor || undefined,
+          numeroChasis: v.numeroChasis || undefined,
+          fechaVencimientoSOAT: v.fechaVencimientoSOAT || undefined,
+          fechaVencimientoTecnomecanica: v.fechaVencimientoTecnomecanica || undefined,
+          paisOrigen: v.paisOrigen || undefined,
+          numeroLlave: v.numeroLlave || undefined,
+          capacidadCombustibleLitros: Number.isFinite(v.capacidadCombustibleLitros)
+            ? v.capacidadCombustibleLitros
+            : undefined,
+        })),
       }
       const result = await registrarMutation.mutateAsync(payload)
       toast.success('Cliente registrado exitosamente')
@@ -174,6 +192,22 @@ export function ClienteFormPage({ basePath }: ClienteFormPageProps) {
               <div className="space-y-1">
                 <Label>Fecha de nacimiento</Label>
                 <Input type="date" {...register('fechaNacimiento')} />
+              </div>
+
+              {/* Género */}
+              <div className="space-y-1">
+                <Label>Género</Label>
+                <Select onValueChange={(v) => setValue('genero', String(v))}>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Selecciona" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Femenino">Femenino</SelectItem>
+                    <SelectItem value="Masculino">Masculino</SelectItem>
+                    <SelectItem value="Otro">Otro</SelectItem>
+                    <SelectItem value="No especificado">No especificado</SelectItem>
+                  </SelectContent>
+                </Select>
               </div>
             </div>
           </div>

@@ -5,6 +5,7 @@ export const CATALOG_KEYS = {
   tiposDocumento: ['catalogos', 'tipos-documento'] as const,
   marcasVehiculo: ['catalogos', 'marcas-vehiculo'] as const,
   modelosVehiculo: (marcaId?: number) => ['catalogos', 'modelos-vehiculo', marcaId] as const,
+  todosModelosVehiculo: ['catalogos', 'modelos-vehiculo', 'todos'] as const,
   areasServicio: ['catalogos', 'areas-servicio'] as const,
   tiposServicio: ['catalogos', 'tipos-servicio'] as const,
   metodosPago: ['catalogos', 'metodos-pago'] as const,
@@ -32,6 +33,14 @@ export function useModelosVehiculo(marcaId?: number) {
     queryKey: CATALOG_KEYS.modelosVehiculo(marcaId),
     queryFn: () => catalogosService.getModelosVehiculo(marcaId),
     enabled: marcaId !== undefined && marcaId > 0,
+    staleTime: Infinity,
+  })
+}
+
+export function useTodosModelosVehiculo() {
+  return useQuery({
+    queryKey: CATALOG_KEYS.todosModelosVehiculo,
+    queryFn: () => catalogosService.getModelosVehiculo(),
     staleTime: Infinity,
   })
 }

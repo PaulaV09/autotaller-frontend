@@ -1,6 +1,11 @@
 import { z } from 'zod'
 import { TipoCombustible, TipoTransmision } from '@/types/enums'
 
+const optionalPositiveNumber = z.preprocess(
+  (value) => (typeof value === 'number' && Number.isNaN(value) ? undefined : value),
+  z.number().positive('Debe ser mayor a 0').optional(),
+)
+
 export const editarVehiculoSchema = z.object({
   marcaVehiculoId: z.number().min(1, 'Selecciona una marca'),
   modeloVehiculoId: z.number().min(1, 'Selecciona un modelo'),
@@ -10,7 +15,7 @@ export const editarVehiculoSchema = z.object({
   tipoCombustible: z.nativeEnum(TipoCombustible),
   tipoTransmision: z.nativeEnum(TipoTransmision),
   color: z.string().optional(),
-  cilindraje: z.number().optional(),
+  cilindraje: optionalPositiveNumber,
   numeroMotor: z.string().optional(),
   numeroChasis: z.string().optional(),
   activo: z.boolean(),
@@ -19,7 +24,7 @@ export const editarVehiculoSchema = z.object({
   paisOrigen: z.string().optional(),
   esImportado: z.boolean().default(false),
   numeroLlave: z.string().optional(),
-  capacidadCombustibleLitros: z.number().optional(),
+  capacidadCombustibleLitros: optionalPositiveNumber,
 })
 
 export type EditarVehiculoFormValues = z.infer<typeof editarVehiculoSchema>

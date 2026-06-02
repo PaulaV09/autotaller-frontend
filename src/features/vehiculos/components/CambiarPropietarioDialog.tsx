@@ -18,12 +18,14 @@ import type { ClienteDto } from '@/types/cliente.types'
 
 interface CambiarPropietarioDialogProps {
   vehiculoId: number
+  propietarioActualId?: number | null
   open: boolean
   onOpenChange: (open: boolean) => void
 }
 
 export function CambiarPropietarioDialog({
   vehiculoId,
+  propietarioActualId,
   open,
   onOpenChange,
 }: CambiarPropietarioDialogProps) {
@@ -48,10 +50,14 @@ export function CambiarPropietarioDialog({
             type="radio"
             name="nuevoCliente"
             value={r.id}
+            disabled={r.id === propietarioActualId}
             onChange={() => setSelectedId(r.id)}
             className="size-4"
           />
           <span className="font-medium">{r.nombre}</span>
+          {r.id === propietarioActualId && (
+            <span className="text-xs text-muted-foreground">(propietario actual)</span>
+          )}
         </div>
       ),
     },
@@ -61,6 +67,11 @@ export function CambiarPropietarioDialog({
 
   async function handleConfirm() {
     if (!selectedId) return
+    if (selectedId === propietarioActualId) {
+      toast.error('Selecciona un cliente diferente al propietario actual')
+      return
+    }
+
     try {
       await cambiarMutation.mutateAsync(selectedId)
       toast.success('Propietario actualizado exitosamente')
@@ -68,7 +79,7 @@ export function CambiarPropietarioDialog({
       setSelectedId(null)
       setBusqueda('')
     } catch {
-      toast.error('No se puede cambiar el propietario: el vehículo tiene una orden activa')
+      toast.error('No se pudo cambiar el propietario. Revisa si el vehículo tiene órdenes activas.')
     }
   }
 

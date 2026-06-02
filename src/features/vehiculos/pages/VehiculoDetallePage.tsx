@@ -101,6 +101,13 @@ export function VehiculoDetallePage({ basePath }: VehiculoDetallePageProps) {
           {vehiculo.numeroMotor && <div><span className="font-medium">Motor:</span> {vehiculo.numeroMotor}</div>}
           {vehiculo.numeroChasis && <div><span className="font-medium">Chasis:</span> {vehiculo.numeroChasis}</div>}
           {vehiculo.paisOrigen && <div><span className="font-medium">País origen:</span> {vehiculo.paisOrigen}</div>}
+          {vehiculo.numeroLlave && <div><span className="font-medium">Llave:</span> {vehiculo.numeroLlave}</div>}
+          {vehiculo.capacidadCombustibleLitros && (
+            <div>
+              <span className="font-medium">Capacidad combustible:</span>{' '}
+              {vehiculo.capacidadCombustibleLitros} L
+            </div>
+          )}
           <div>
             <span className="font-medium">Importado:</span>{' '}
             <Badge variant={vehiculo.esImportado ? 'default' : 'secondary'}>
@@ -132,7 +139,7 @@ export function VehiculoDetallePage({ basePath }: VehiculoDetallePageProps) {
           <DataTable
             columns={propietarioColumns}
             data={propietarios ?? []}
-            getRowKey={(r) => r.clienteId}
+            getRowKey={(r) => `${r.clienteId}-${r.fechaInicio}`}
             emptyTitle="Sin historial"
           />
         </TabsContent>
@@ -170,6 +177,7 @@ export function VehiculoDetallePage({ basePath }: VehiculoDetallePageProps) {
 
       <CambiarPropietarioDialog
         vehiculoId={vehiculoId}
+        propietarioActualId={propietarioActual?.clienteId}
         open={cambiarPropietarioOpen}
         onOpenChange={setCambiarPropietarioOpen}
       />

@@ -8,6 +8,13 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Skeleton } from '@/components/ui/skeleton'
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select'
 import { useCliente, useUpdateCliente } from '../hooks/useClientes'
 import { editarClienteSchema, type EditarClienteFormValues } from '../schemas/cliente.schema'
 
@@ -25,6 +32,8 @@ export function ClienteEditPage({ basePath }: ClienteEditPageProps) {
 
   const {
     register,
+    setValue,
+    watch,
     handleSubmit,
     reset,
     formState: { errors, isSubmitting },
@@ -113,6 +122,24 @@ export function ClienteEditPage({ basePath }: ClienteEditPageProps) {
           <div className="space-y-1">
             <Label>Fecha de nacimiento</Label>
             <Input type="date" {...register('fechaNacimiento')} />
+          </div>
+
+          <div className="space-y-1">
+            <Label>Género</Label>
+            <Select
+              value={watch('genero') || ''}
+              onValueChange={(v) => setValue('genero', String(v))}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Selecciona" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="Femenino">Femenino</SelectItem>
+                <SelectItem value="Masculino">Masculino</SelectItem>
+                <SelectItem value="Otro">Otro</SelectItem>
+                <SelectItem value="No especificado">No especificado</SelectItem>
+              </SelectContent>
+            </Select>
           </div>
 
           <div className="flex items-center gap-2">

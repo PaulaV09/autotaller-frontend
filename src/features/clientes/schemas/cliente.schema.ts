@@ -1,17 +1,22 @@
 import { z } from 'zod'
 import { TipoCombustible, TipoTransmision } from '@/types/enums'
 
+const optionalPositiveNumber = z.preprocess(
+  (value) => (typeof value === 'number' && Number.isNaN(value) ? undefined : value),
+  z.number().positive('Debe ser mayor a 0').optional(),
+)
+
 export const vehiculoFormSchema = z.object({
   marcaVehiculoId: z.number().min(1, 'Selecciona una marca'),
   modeloVehiculoId: z.number().min(1, 'Selecciona un modelo'),
   anio: z.number().min(1900, 'Año inválido').max(new Date().getFullYear() + 1, 'Año inválido'),
-  vin: z.string().min(1, 'El VIN es obligatorio').max(17, 'Máximo 17 caracteres'),
+  vin: z.string().length(17, 'El VIN debe tener 17 caracteres'),
   placa: z.string().min(1, 'La placa es obligatoria').max(10, 'Máximo 10 caracteres'),
   kilometraje: z.number().min(0, 'Debe ser mayor o igual a 0'),
   tipoCombustible: z.nativeEnum(TipoCombustible),
   tipoTransmision: z.nativeEnum(TipoTransmision),
   color: z.string().optional(),
-  cilindraje: z.number().optional(),
+  cilindraje: optionalPositiveNumber,
   numeroMotor: z.string().optional(),
   numeroChasis: z.string().optional(),
   fechaVencimientoSOAT: z.string().optional(),
@@ -19,7 +24,7 @@ export const vehiculoFormSchema = z.object({
   paisOrigen: z.string().optional(),
   esImportado: z.boolean(),
   numeroLlave: z.string().optional(),
-  capacidadCombustibleLitros: z.number().optional(),
+  capacidadCombustibleLitros: optionalPositiveNumber,
 })
 
 export const registrarClienteSchema = z.object({

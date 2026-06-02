@@ -4,9 +4,26 @@ import { RoleGuard } from './RoleGuard'
 import { AppShell } from '@/components/layout/AppShell'
 import { PortalShell } from '@/components/layout/PortalShell'
 import { LoginPage } from '@/features/auth/pages/LoginPage'
-import { DashboardPlaceholder } from '@/features/dashboard/pages/DashboardPlaceholder'
-import { PortalDashboardPlaceholder } from '@/features/portal/pages/PortalDashboardPlaceholder'
 import { RoleRedirect } from './RoleRedirect'
+import {
+  AuditoriasPage,
+  CatalogosPage,
+  ConfiguracionPage,
+  FacturasPage,
+  InventarioSolicitudesPage,
+  OperationalDashboardPage,
+  OrdenesCompraPage,
+  PortalDashboardPage,
+  PortalFacturasPage,
+  PortalOrdenDetallePage,
+  PortalOrdenesPage,
+  PortalPerfilPage,
+  PortalVehiculosPage,
+  ProveedoresPage,
+  ReportesPage,
+  RepuestosPage,
+  UsuariosPage,
+} from '@/features/operaciones/pages/OperationalPages'
 // Phase 2 — Clientes
 import { ClientesListPage } from '@/features/clientes/pages/ClientesListPage'
 import { ClienteFormPage } from '@/features/clientes/pages/ClienteFormPage'
@@ -68,7 +85,7 @@ export const router = createBrowserRouter([
             path: 'recepcion/dashboard',
             element: (
               <RoleGuard roles={['Recepcionista', 'SuperAdministrador']}>
-                <DashboardPlaceholder role="Panel Recepcionista" description="Gestión de clientes, vehículos y pagos." />
+                <OperationalDashboardPage title="Panel Recepcionista" description="Gestión de clientes, vehículos y pagos." />
               </RoleGuard>
             ),
           },
@@ -104,7 +121,7 @@ export const router = createBrowserRouter([
             path: 'recepcion/facturas',
             element: (
               <RoleGuard roles={['Recepcionista', 'SuperAdministrador']}>
-                <DashboardPlaceholder role="Facturas" description="Facturas y registro de pagos." />
+                <FacturasPage />
               </RoleGuard>
             ),
           },
@@ -164,11 +181,11 @@ export const router = createBrowserRouter([
           },
           {
             path: 'taller/facturas',
-            element: <RoleGuard roles={['JefeTaller', 'SuperAdministrador']}><DashboardPlaceholder role="Facturas" description="Facturas generadas." /></RoleGuard>,
+            element: <RoleGuard roles={['JefeTaller', 'SuperAdministrador']}><FacturasPage /></RoleGuard>,
           },
           {
             path: 'taller/reportes',
-            element: <RoleGuard roles={['JefeTaller', 'SuperAdministrador']}><DashboardPlaceholder role="Reportes" description="Productividad y rendimiento." /></RoleGuard>,
+            element: <RoleGuard roles={['JefeTaller', 'SuperAdministrador']}><ReportesPage /></RoleGuard>,
           },
 
           // ── Mecánico ───────────────────────────────────────────────────
@@ -176,10 +193,7 @@ export const router = createBrowserRouter([
             path: 'mecanico/dashboard',
             element: (
               <RoleGuard roles={['Mecanico', 'SuperAdministrador']}>
-                <DashboardPlaceholder
-                  role="Panel Mecánico"
-                  description="Mis órdenes asignadas."
-                />
+                <MecanicoMisOrdenesPage />
               </RoleGuard>
             ),
           },
@@ -197,10 +211,7 @@ export const router = createBrowserRouter([
             path: 'almacen/dashboard',
             element: (
               <RoleGuard roles={['JefeAlmacen', 'SuperAdministrador']}>
-                <DashboardPlaceholder
-                  role="Panel Jefe de Almacén"
-                  description="Solicitudes de repuestos e inventario de almacén."
-                />
+                <OperationalDashboardPage title="Panel Jefe de Almacén" description="Solicitudes de repuestos e inventario de almacén." />
               </RoleGuard>
             ),
           },
@@ -208,7 +219,7 @@ export const router = createBrowserRouter([
             path: 'almacen/solicitudes',
             element: (
               <RoleGuard roles={['JefeAlmacen', 'SuperAdministrador']}>
-                <DashboardPlaceholder role="Solicitudes" description="Solicitudes de repuestos." />
+                <InventarioSolicitudesPage />
               </RoleGuard>
             ),
           },
@@ -216,7 +227,7 @@ export const router = createBrowserRouter([
             path: 'almacen/inventario',
             element: (
               <RoleGuard roles={['JefeAlmacen', 'SuperAdministrador']}>
-                <DashboardPlaceholder role="Inventario Almacén" description="Stock de almacén." />
+                <RepuestosPage />
               </RoleGuard>
             ),
           },
@@ -226,10 +237,7 @@ export const router = createBrowserRouter([
             path: 'bodega/dashboard',
             element: (
               <RoleGuard roles={['JefeBodega', 'SuperAdministrador']}>
-                <DashboardPlaceholder
-                  role="Panel Jefe de Bodega"
-                  description="Inventario principal, compras y proveedores."
-                />
+                <OperationalDashboardPage title="Panel Jefe de Bodega" description="Inventario principal, compras y proveedores." />
               </RoleGuard>
             ),
           },
@@ -237,7 +245,7 @@ export const router = createBrowserRouter([
             path: 'bodega/inventario',
             element: (
               <RoleGuard roles={['JefeBodega', 'SuperAdministrador']}>
-                <DashboardPlaceholder role="Inventario Bodega" description="Stock de bodega." />
+                <RepuestosPage />
               </RoleGuard>
             ),
           },
@@ -245,7 +253,7 @@ export const router = createBrowserRouter([
             path: 'bodega/solicitudes',
             element: (
               <RoleGuard roles={['JefeBodega', 'SuperAdministrador']}>
-                <DashboardPlaceholder role="Solicitudes" description="Solicitudes de almacén." />
+                <InventarioSolicitudesPage />
               </RoleGuard>
             ),
           },
@@ -253,7 +261,7 @@ export const router = createBrowserRouter([
             path: 'bodega/ordenes-compra',
             element: (
               <RoleGuard roles={['JefeBodega', 'SuperAdministrador']}>
-                <DashboardPlaceholder role="Órdenes de Compra" description="Compras a proveedores." />
+                <OrdenesCompraPage />
               </RoleGuard>
             ),
           },
@@ -261,7 +269,7 @@ export const router = createBrowserRouter([
             path: 'bodega/proveedores',
             element: (
               <RoleGuard roles={['JefeBodega', 'SuperAdministrador']}>
-                <DashboardPlaceholder role="Proveedores" description="Gestión de proveedores." />
+                <ProveedoresPage />
               </RoleGuard>
             ),
           },
@@ -271,10 +279,7 @@ export const router = createBrowserRouter([
             path: 'admin/dashboard',
             element: (
               <RoleGuard roles={['SuperAdministrador']}>
-                <DashboardPlaceholder
-                  role="Panel Administrador"
-                  description="Control total del sistema."
-                />
+                <OperationalDashboardPage title="Panel Administrador" description="Control total del sistema." />
               </RoleGuard>
             ),
           },
@@ -282,7 +287,7 @@ export const router = createBrowserRouter([
             path: 'admin/usuarios',
             element: (
               <RoleGuard roles={['SuperAdministrador']}>
-                <DashboardPlaceholder role="Usuarios" description="Gestión de usuarios y roles." />
+                <UsuariosPage />
               </RoleGuard>
             ),
           },
@@ -318,7 +323,7 @@ export const router = createBrowserRouter([
             path: 'admin/inspecciones',
             element: (
               <RoleGuard roles={['SuperAdministrador']}>
-                <DashboardPlaceholder role="Inspecciones" description="Todas las inspecciones." />
+                <InspeccionesListPage basePath="/admin" />
               </RoleGuard>
             ),
           },
@@ -326,7 +331,7 @@ export const router = createBrowserRouter([
             path: 'admin/ordenes',
             element: (
               <RoleGuard roles={['SuperAdministrador']}>
-                <DashboardPlaceholder role="Órdenes" description="Todas las órdenes." />
+                <OrdenesListPage basePath="/admin" />
               </RoleGuard>
             ),
           },
@@ -334,7 +339,7 @@ export const router = createBrowserRouter([
             path: 'admin/repuestos',
             element: (
               <RoleGuard roles={['SuperAdministrador']}>
-                <DashboardPlaceholder role="Repuestos" description="Catálogo de repuestos." />
+                <RepuestosPage />
               </RoleGuard>
             ),
           },
@@ -342,7 +347,7 @@ export const router = createBrowserRouter([
             path: 'admin/inventario',
             element: (
               <RoleGuard roles={['SuperAdministrador']}>
-                <DashboardPlaceholder role="Inventario" description="Inventario global." />
+                <RepuestosPage />
               </RoleGuard>
             ),
           },
@@ -350,7 +355,7 @@ export const router = createBrowserRouter([
             path: 'admin/proveedores',
             element: (
               <RoleGuard roles={['SuperAdministrador']}>
-                <DashboardPlaceholder role="Proveedores" description="Todos los proveedores." />
+                <ProveedoresPage />
               </RoleGuard>
             ),
           },
@@ -358,7 +363,7 @@ export const router = createBrowserRouter([
             path: 'admin/facturas',
             element: (
               <RoleGuard roles={['SuperAdministrador']}>
-                <DashboardPlaceholder role="Facturas" description="Todas las facturas." />
+                <FacturasPage />
               </RoleGuard>
             ),
           },
@@ -366,7 +371,7 @@ export const router = createBrowserRouter([
             path: 'admin/reportes',
             element: (
               <RoleGuard roles={['SuperAdministrador']}>
-                <DashboardPlaceholder role="Reportes" description="Dashboard ejecutivo y reportes." />
+                <ReportesPage />
               </RoleGuard>
             ),
           },
@@ -374,7 +379,7 @@ export const router = createBrowserRouter([
             path: 'admin/catalogos',
             element: (
               <RoleGuard roles={['SuperAdministrador']}>
-                <DashboardPlaceholder role="Catálogos" description="Áreas, tipos de servicio, categorías." />
+                <CatalogosPage />
               </RoleGuard>
             ),
           },
@@ -382,7 +387,7 @@ export const router = createBrowserRouter([
             path: 'admin/configuracion',
             element: (
               <RoleGuard roles={['SuperAdministrador']}>
-                <DashboardPlaceholder role="Configuración" description="Parámetros del taller." />
+                <ConfiguracionPage />
               </RoleGuard>
             ),
           },
@@ -390,7 +395,7 @@ export const router = createBrowserRouter([
             path: 'admin/auditorias',
             element: (
               <RoleGuard roles={['SuperAdministrador']}>
-                <DashboardPlaceholder role="Auditorías" description="Registro de cambios del sistema." />
+                <AuditoriasPage />
               </RoleGuard>
             ),
           },
@@ -410,22 +415,26 @@ export const router = createBrowserRouter([
         ),
         children: [
           { index: true, element: <Navigate to="dashboard" replace /> },
-          { path: 'dashboard', element: <PortalDashboardPlaceholder /> },
+          { path: 'dashboard', element: <PortalDashboardPage /> },
           {
             path: 'vehiculos',
-            element: <DashboardPlaceholder role="Mis Vehículos" description="Vehículos registrados." />,
+            element: <PortalVehiculosPage />,
           },
           {
             path: 'ordenes',
-            element: <DashboardPlaceholder role="Mis Órdenes" description="Órdenes activas e historial." />,
+            element: <PortalOrdenesPage />,
+          },
+          {
+            path: 'ordenes/:id',
+            element: <PortalOrdenDetallePage />,
           },
           {
             path: 'facturas',
-            element: <DashboardPlaceholder role="Mis Facturas" description="Facturas y pagos." />,
+            element: <PortalFacturasPage />,
           },
           {
             path: 'perfil',
-            element: <DashboardPlaceholder role="Mi Perfil" description="Cambiar contraseña." />,
+            element: <PortalPerfilPage />,
           },
         ],
       },

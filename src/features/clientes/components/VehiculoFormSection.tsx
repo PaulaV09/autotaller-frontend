@@ -205,6 +205,60 @@ export function VehiculoFormSection({ index, onRemove, showRemove }: VehiculoFor
           <Label>Número de motor</Label>
           <Input {...register(vp('numeroMotor'))} />
         </div>
+
+        {/* Número de chasis */}
+        <div className="space-y-1">
+          <Label>Número de chasis</Label>
+          <Input {...register(vp('numeroChasis'))} />
+        </div>
+
+        {/* Cilindraje */}
+        <div className="space-y-1">
+          <Label>Cilindraje</Label>
+          <Input
+            type="number"
+            min={0}
+            placeholder="Ej: 1600"
+            {...register(vp('cilindraje'), { valueAsNumber: true })}
+          />
+          {vErr?.cilindraje && <p className="text-xs text-destructive">{vErr.cilindraje.message}</p>}
+        </div>
+
+        {/* País de origen */}
+        <div className="space-y-1">
+          <Label>País de origen</Label>
+          <Input placeholder="Ej: Colombia" {...register(vp('paisOrigen'))} />
+        </div>
+
+        {/* Número de llave */}
+        <div className="space-y-1">
+          <Label>Número de llave</Label>
+          <Input {...register(vp('numeroLlave'))} />
+        </div>
+
+        {/* Capacidad combustible */}
+        <div className="space-y-1">
+          <Label>Capacidad combustible (L)</Label>
+          <Input
+            type="number"
+            min={0}
+            {...register(vp('capacidadCombustibleLitros'), { valueAsNumber: true })}
+          />
+          {vErr?.capacidadCombustibleLitros && (
+            <p className="text-xs text-destructive">{vErr.capacidadCombustibleLitros.message}</p>
+          )}
+        </div>
+
+        {/* Importado */}
+        <div className="flex items-center gap-2">
+          <input
+            type="checkbox"
+            id={`vehiculo-importado-${index}`}
+            {...register(vp('esImportado'))}
+            className="size-4"
+          />
+          <Label htmlFor={`vehiculo-importado-${index}`}>Vehículo importado</Label>
+        </div>
       </div>
     </div>
   )

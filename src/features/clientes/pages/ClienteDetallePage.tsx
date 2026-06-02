@@ -239,6 +239,9 @@ export function ClienteDetallePage({ basePath }: ClienteDetallePageProps) {
               {cliente.fechaNacimiento && (
                 <div><span className="font-medium">Nacimiento:</span> {formatDate(cliente.fechaNacimiento)}</div>
               )}
+              {cliente.genero && (
+                <div><span className="font-medium">Género:</span> {cliente.genero}</div>
+              )}
               <div>
                 <span className="font-medium">Estado:</span>{' '}
                 <Badge variant={cliente.activo ? 'default' : 'secondary'}>
