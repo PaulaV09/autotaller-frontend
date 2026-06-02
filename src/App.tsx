@@ -19,7 +19,7 @@ const queryClient = new QueryClient({
   },
 })
 
-const BASE_URL = import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:5171'
+const BASE_URL = import.meta.env.VITE_API_BASE_URL ?? 'http://localhost:5180'
 
 function AuthBootstrap({ children }: { children: React.ReactNode }) {
   const { setAuth } = useAuthStore()

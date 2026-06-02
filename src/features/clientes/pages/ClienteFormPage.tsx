@@ -74,20 +74,23 @@ export function ClienteFormPage({ basePath }: ClienteFormPageProps) {
         fechaNacimiento: clienteData.fechaNacimiento || undefined,
         telefonoAlternativo: clienteData.telefonoAlternativo || undefined,
         genero: clienteData.genero || undefined,
-        vehiculos: vehiculos.map(({ marcaVehiculoId: _marca, ...v }) => ({
-          ...v,
-          color: v.color || undefined,
-          cilindraje: Number.isFinite(v.cilindraje) ? v.cilindraje : undefined,
-          numeroMotor: v.numeroMotor || undefined,
-          numeroChasis: v.numeroChasis || undefined,
-          fechaVencimientoSOAT: v.fechaVencimientoSOAT || undefined,
-          fechaVencimientoTecnomecanica: v.fechaVencimientoTecnomecanica || undefined,
-          paisOrigen: v.paisOrigen || undefined,
-          numeroLlave: v.numeroLlave || undefined,
-          capacidadCombustibleLitros: Number.isFinite(v.capacidadCombustibleLitros)
-            ? v.capacidadCombustibleLitros
-            : undefined,
-        })),
+        vehiculos: vehiculos.map(({ marcaVehiculoId, ...v }) => {
+          void marcaVehiculoId
+          return {
+            ...v,
+            color: v.color || undefined,
+            cilindraje: Number.isFinite(v.cilindraje) ? v.cilindraje : undefined,
+            numeroMotor: v.numeroMotor || undefined,
+            numeroChasis: v.numeroChasis || undefined,
+            fechaVencimientoSOAT: v.fechaVencimientoSOAT || undefined,
+            fechaVencimientoTecnomecanica: v.fechaVencimientoTecnomecanica || undefined,
+            paisOrigen: v.paisOrigen || undefined,
+            numeroLlave: v.numeroLlave || undefined,
+            capacidadCombustibleLitros: Number.isFinite(v.capacidadCombustibleLitros)
+              ? v.capacidadCombustibleLitros
+              : undefined,
+          }
+        }),
       }
       const result = await registrarMutation.mutateAsync(payload)
       toast.success('Cliente registrado exitosamente')

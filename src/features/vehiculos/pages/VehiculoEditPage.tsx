@@ -81,7 +81,8 @@ export function VehiculoEditPage({ basePath }: VehiculoEditPageProps) {
   }, [vehiculo, todosModelos, reset])
 
   async function onSubmit(values: EditarVehiculoFormValues) {
-    const { marcaVehiculoId: _m, ...rest } = values
+    const { marcaVehiculoId, ...rest } = values
+    void marcaVehiculoId
     try {
       await updateMutation.mutateAsync({
         ...rest,
