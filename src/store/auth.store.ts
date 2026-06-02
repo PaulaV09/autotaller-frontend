@@ -1,4 +1,5 @@
 import { create } from 'zustand'
+import { getPrimaryRole } from '@/lib/constants'
 import type { AppRole } from '@/types/auth.types'
 
 interface AuthUser {
@@ -25,7 +26,7 @@ export const useAuthStore = create<AuthStore>((set, get) => ({
   isAuthenticated: false,
 
   get primaryRole() {
-    return get().user?.roles[0] ?? null
+    return getPrimaryRole(get().user?.roles)
   },
 
   setAuth: (token, expiresAt, refreshToken, user) => {

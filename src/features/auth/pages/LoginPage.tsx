@@ -7,7 +7,7 @@ import { toast } from 'sonner'
 import { loginSchema, type LoginFormValues } from '../schemas/login.schema'
 import { authService } from '@/api/services/auth.service'
 import { useAuthStore } from '@/store/auth.store'
-import { ROLE_DASHBOARD } from '@/lib/constants'
+import { getPrimaryRole, ROLE_DASHBOARD } from '@/lib/constants'
 import type { AppRole } from '@/types/auth.types'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
@@ -23,8 +23,8 @@ export function LoginPage() {
 
   // Si ya está autenticado, redirigir directamente
   if (isAuthenticated && user) {
-    const primaryRole = user.roles[0] as AppRole
-    const dest = ROLE_DASHBOARD[primaryRole] ?? '/'
+    const primaryRole = getPrimaryRole(user.roles)
+    const dest = primaryRole ? ROLE_DASHBOARD[primaryRole] : '/'
     navigate(dest, { replace: true })
     return null
   }
@@ -52,8 +52,8 @@ export function LoginPage() {
         roles: data.roles as AppRole[],
       })
 
-      const primaryRole = data.roles[0] as AppRole
-      const dest = ROLE_DASHBOARD[primaryRole] ?? '/'
+      const primaryRole = getPrimaryRole(data.roles)
+      const dest = primaryRole ? ROLE_DASHBOARD[primaryRole] : '/'
       toast.success(`Bienvenido`)
       navigate(dest, { replace: true })
     } catch (err: unknown) {

@@ -1,4 +1,5 @@
 import { useAuthStore } from '@/store/auth.store'
+import { getPrimaryRole } from '@/lib/constants'
 import type { AppRole } from '@/types/auth.types'
 
 export function useAuth() {
@@ -13,7 +14,7 @@ export function useAuth() {
     return hasRole('SuperAdministrador')
   }
 
-  const primaryRole = store.user?.roles[0] ?? null
+  const primaryRole = getPrimaryRole(store.user?.roles)
 
   return { ...store, hasRole, isAdmin, primaryRole }
 }

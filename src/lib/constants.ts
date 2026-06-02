@@ -133,3 +133,19 @@ export const ROLE_DASHBOARD: Record<AppRole, string> = {
   Recepcionista: '/recepcion/dashboard',
   Cliente: '/portal/dashboard',
 }
+
+export const ROLE_PRIORITY: AppRole[] = [
+  'SuperAdministrador',
+  'JefeTaller',
+  'JefeAlmacen',
+  'JefeBodega',
+  'Mecanico',
+  'Recepcionista',
+  'Cliente',
+]
+
+export function getPrimaryRole(roles: string[] | readonly string[] | null | undefined): AppRole | null {
+  if (!roles || roles.length === 0) return null
+
+  return ROLE_PRIORITY.find((role) => roles.includes(role)) ?? null
+}
